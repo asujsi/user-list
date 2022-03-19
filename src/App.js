@@ -6,6 +6,8 @@ import AddTask from "./components/AddTask";
 import Footer from "./components/Footer";
 import About from "./components/About";
 
+const PORT = "http://localhost:5000/tasks";
+
 const App = () => {
   //since this state is in app component it is called as global state and can be easily used by other components
   const [showAddTask, setShowAddTask] = useState();
@@ -21,21 +23,21 @@ const App = () => {
 
   //fetch tasks
   const fetchTasks = async () => {
-    const res = await fetch("http://localhost:5000/tasks");
+    const res = await fetch(PORT);
     const data = await res.json();
     return data;
   };
 
   //fetch task
   const fetchTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`);
+    const res = await fetch(`${PORT}/${id}`);
     const data = await res.json();
     return data;
   };
 
   //delete task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/tasks/${id}`, {
+    await fetch(`${PORT}/${id}`, {
       method: "DELETE",
     });
 
@@ -46,7 +48,7 @@ const App = () => {
   const toggleReminder = async (id) => {
     const taskToToggle = await fetchTask(id);
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
-    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+    const res = await fetch(`${PORT}/${id}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
@@ -63,7 +65,7 @@ const App = () => {
 
   //add task
   const addTask = async (task) => {
-    const res = await fetch(`http://localhost:5000/tasks`, {
+    const res = await fetch(`${PORT}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
